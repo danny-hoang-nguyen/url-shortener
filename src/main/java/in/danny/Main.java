@@ -1,5 +1,6 @@
 package in.danny;
 
+import in.danny.filter.ExceptionHandlingFilter;
 import in.danny.filter.LoggingFilter;
 import in.danny.filter.StatsFilter;
 import io.undertow.Undertow;
@@ -29,9 +30,11 @@ public class Main {
                 )
                 .addFilters(
                         Servlets.filter("LoggingFilter", LoggingFilter.class),
-                        Servlets.filter("StatsFilter", StatsFilter.class)
+                        Servlets.filter("StatsFilter", StatsFilter.class),
+                        Servlets.filter("ExceptionHandlingFilter", ExceptionHandlingFilter.class)
                 )
                 .addFilterUrlMapping("LoggingFilter", "/*", DispatcherType.REQUEST)
+                .addFilterUrlMapping("ExceptionHandlingFilter", "/*", DispatcherType.REQUEST)
                 .addFilterUrlMapping("StatsFilter", "/*", DispatcherType.REQUEST);
 
         DeploymentManager manager = Servlets.defaultContainer().addDeployment(deployment);
